@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kréation-KF | Art Époxy par Karine Fortin</title>
+    
+    <!-- Polices modernes -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARIABLES DE COULEURS --- */
+        :root {
+            --bg-main: #141417; 
+            --bg-alt: #1c1c22; 
+            --text-light: #f4f4f5;
+            --cyan-kf: #00bfff; 
+            --amethyst-kf: #a78bfa; 
+            --silver-kf: #e2e8f0; 
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-main); color: var(--text-light); overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Cinzel', serif; font-weight: 600; }
+        a { text-decoration: none; color: inherit; }
+
+        /* --- STRUCTURE DES SECTIONS --- */
+        section { width: 100%; padding: 100px 5%; }
+        .section-container { max-width: 1400px; margin: 0 auto; }
+        .bg-alt { background-color: var(--bg-alt); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
+
+        /* --- ANIMATIONS GLOBALES --- */
+        .reveal { opacity: 0; transform: translateY(60px); transition: all 1s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: 0.4s;
+        }
+        nav.scrolled {
+            background: rgba(20, 20, 23, 0.95); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border); padding: 15px 5%;
+        }
+        .logo { font-family: 'Cinzel', serif; font-size: 1.8rem; letter-spacing: 2px; position: relative; z-index: 1001; }
+        .logo span { color: var(--cyan-kf); }
+        
+        .nav-links { display: flex; gap: 40px; list-style: none; }
+        .nav-links li a { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; position: relative; }
+        .nav-links li a::after {
+            content: ''; position: absolute; width: 0; height: 1px;
+            bottom: -5px; left: 0; background-color: var(--cyan-kf); transition: width 0.3s ease;
+        }
+        .nav-links li a:hover::after { width: 100%; }
+
+        /* MENU HAMBURGER (Caché sur PC) */
+        .hamburger {
+            display: none; flex-direction: column; cursor: pointer; gap: 5px; z-index: 1001;
+        }
+        .hamburger span {
+            width: 25px; height: 3px; background-color: var(--text-light);
+            transition: 0.3s; border-radius: 2px;
+        }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            padding: 0; height: 100vh; width: 100%;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+            background: linear-gradient(-45deg, #0d0d12, #182330, #0a0a0f, #221533); 
+            background-size: 400% 400%; animation: fluidEpoxy 15s ease infinite;
+        }
+        @keyframes fluidEpoxy { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        .hero-content {
+            text-align: center; z-index: 2; background: var(--glass-bg); backdrop-filter: blur(10px);
+            padding: 60px; border-radius: 20px; border: 1px solid var(--glass-border);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); max-width: 800px; width: 90%;
+        }
+        #hero h1 { font-size: 4.5rem; margin-bottom: 20px; line-height: 1.1; }
+        #hero p { font-size: 1.2rem; font-weight: 300; margin-bottom: 30px; letter-spacing: 1px; color: var(--silver-kf);}
+        
+        .btn-primary {
+            display: inline-block; padding: 15px 40px; background: transparent; color: var(--text-light);
+            border: 1px solid var(--cyan-kf); text-transform: uppercase; letter-spacing: 2px;
+            font-size: 0.9rem; transition: 0.4s; cursor: pointer;
+        }
+        .btn-primary:hover { background: var(--cyan-kf); color: #000; box-shadow: 0 0 20px rgba(0, 191, 255, 0.4); }
+
+        /* --- EN-TÊTES DE SECTIONS --- */
+        .section-header { margin-bottom: 60px; text-align: center; }
+        .section-header h2 { font-size: 3rem; color: var(--silver-kf); }
+        .section-header p { font-size: 1rem; text-transform: uppercase; letter-spacing: 3px; color: var(--amethyst-kf); }
+
+        /* --- CATÉGORIES --- */
+        .categories { display: flex; gap: 30px; margin-top: -60px; }
+        .cat-card {
+            flex: 1; background: var(--glass-bg); border: 1px solid var(--glass-border);
+            padding: 40px 30px; text-align: center; border-radius: 15px; backdrop-filter: blur(10px); transition: transform 0.4s;
+        }
+        .cat-card:hover { transform: translateY(-15px); border-color: var(--amethyst-kf); background: rgba(255,255,255,0.06); }
+        .cat-card h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--cyan-kf); }
+        .cat-card p { font-size: 0.9rem; color: #aaa; }
+
+        /* --- L'ARTISTE --- */
+        .about-container { display: flex; align-items: center; gap: 80px; }
+        .about-img-wrapper { flex: 1; position: relative; }
+        .about-img-wrapper::before { content: ''; position: absolute; top: -20px; left: -20px; width: 100%; height: 100%; border: 2px solid var(--amethyst-kf); z-index: -1; }
+        .about-img { width: 100%; height: 600px; object-fit: cover; box-shadow: 0 20px 40px rgba(0,0,0,0.5); background: url('images/oeuvres-ensemble.jpg') center/cover; }
+        .about-text { flex: 1; }
+        .about-text h3 { font-size: 2.5rem; margin-bottom: 30px; color: var(--silver-kf); }
+        .about-text p { font-size: 1.1rem; font-weight: 300; line-height: 1.8; color: #ccc; margin-bottom: 20px; }
+
+        /* --- FILTRES DE GALERIE --- */
+        .filter-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 50px; }
+        .filter-btn {
+            background: var(--glass-bg); color: var(--text-light); border: 1px solid var(--glass-border);
+            padding: 10px 25px; border-radius: 30px; cursor: pointer; font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1px; transition: 0.4s; backdrop-filter: blur(5px);
+        }
+        .filter-btn.active, .filter-btn:hover { background: var(--cyan-kf); color: #000; border-color: var(--cyan-kf); }
+
+        /* --- GALERIE BENTO --- */
+        .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 300px; gap: 20px; grid-auto-flow: dense; }
+        .bento-item { position: relative; border-radius: 15px; overflow: hidden; cursor: pointer; transition: transform 0.4s ease, opacity 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .bento-item.hide { display: none; }
+        .bento-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1); }
+        .bento-item:hover img { transform: scale(1.08); }
+        .bento-overlay {
+            position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; opacity: 0; transition: opacity 0.4s ease;
+        }
+        .bento-item:hover .bento-overlay { opacity: 1; }
+        .bento-overlay h4 { font-size: 1.5rem; margin-bottom: 5px; transform: translateY(20px); transition: 0.4s; color: var(--silver-kf); }
+        .bento-overlay p { color: var(--cyan-kf); font-size: 0.9rem; letter-spacing: 1px; transform: translateY(20px); transition: 0.4s; transition-delay: 0.1s;}
+        .bento-item:hover h4, .bento-item:hover p { transform: translateY(0); }
+        .zoom-icon { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 1.5rem; opacity: 0; transition: 0.4s; }
+        .bento-item:hover .zoom-icon { opacity: 1; }
+
+        .item-large { grid-column: span 2; grid-row: span 2; } 
+        .item-wide { grid-column: span 2; grid-row: span 1; }  
+        .item-tall { grid-column: span 1; grid-row: span 2; }  
+
+        /* --- LIGHTBOX --- */
+        #lightbox {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000;
+            display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(10px);
+        }
+        #lightbox.active { opacity: 1; pointer-events: auto; }
+        #lightbox img { max-width: 90%; max-height: 90%; border-radius: 5px; box-shadow: 0 0 50px rgba(0, 191, 255, 0.2); }
+        #lightbox-close { position: absolute; top: 30px; right: 40px; color: #fff; font-size: 3rem; cursor: pointer; }
+
+        /* --- FOOTER --- */
+        footer { text-align: center; padding: 60px 20px; background: #0a0a0d; border-top: 1px solid var(--glass-border); }
+        footer h2 { font-size: 2rem; margin-bottom: 20px; color: var(--silver-kf); }
+        .socials { margin-top: 20px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .socials a { color: var(--cyan-kf); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; transition: 0.3s; }
+        .socials a:hover { color: var(--amethyst-kf); }
+
+        /* ========================================= */
+        /* --- RESPONSIVE : TABLETTES (Max 900px) --- */
+        /* ========================================= */
+        @media (max-width: 900px) {
+            .about-container { flex-direction: column; }
+            .categories { flex-direction: column; margin-top: 0; padding-top: 40px; }
+            #hero h1 { font-size: 3rem; }
+            
+            /* Grille de 4 colonnes passe à 2 colonnes */
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            
+            /* Activation du menu Hamburger */
+            .hamburger { display: flex; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%; height: 100vh; width: 250px;
+                background: rgba(20, 20, 23, 0.98); backdrop-filter: blur(15px);
+                flex-direction: column; justify-content: center; align-items: center;
+                transition: right 0.4s ease; border-left: 1px solid var(--glass-border);
+            }
+            .nav-links.active { right: 0; }
+            
+            /* Animation de la croix pour le menu */
+            .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active span:nth-child(2) { opacity: 0; }
+            .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        }
+
+        /* ========================================== */
+        /* --- RESPONSIVE : MOBILES (Max 600px) --- */
+        /* ========================================== */
+        @media (max-width: 600px) {
+            section { padding: 60px 5%; }
+            #hero h1 { font-size: 2.2rem; }
+            #hero p { font-size: 1rem; }
+            .hero-content { padding: 40px 20px; }
+            .section-header h2 { font-size: 2.2rem; }
+            .about-img { height: 400px; }
+            .filter-btn { padding: 8px 15px; font-size: 0.8rem; }
+
+            /* Grille de 2 colonnes passe à 1 seule colonne pour les téléphones */
+            .bento-grid { grid-template-columns: 1fr; grid-auto-rows: 250px; }
+            
+            /* Annuler les tailles spéciales pour que tout rentre sur un petit écran */
+            .item-large, .item-wide, .item-tall { 
+                grid-column: span 1; 
+                grid-row: span 1; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <div class="logo">Kréation<span>-KF</span></div>
+        
+        <!-- BOUTON MENU MOBILE -->
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#hero">Accueil</a></li>
+            <li><a href="#services">Catégories</a></li>
+            <li><a href="#about">L'Artiste</a></li>
+            <li><a href="#portfolio">Œuvres</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="hero">
+        <div class="hero-content reveal">
+            <h1>L'Art de la<br><span style="color: var(--cyan-kf);">Résine Époxy</span></h1>
+            <p>Des textures organiques, des cristaux étincelants et une profondeur fascinante. L'élégance moderne signée Karine Fortin.</p>
+            <a href="#portfolio" class="btn-primary">Explorer la galerie</a>
+        </div>
+    </section>
+
+    <!-- CATÉGORIES -->
+    <section id="services" style="padding-top: 0;">
+        <div class="section-container categories reveal">
+            <div class="cat-card">
+                <h3>Art Mural</h3>
+                <p>Toiles abstraites et géodes géantes pour devenir la pièce maîtresse de votre décor.</p>
+            </div>
+            <div class="cat-card">
+                <h3>Art de Vivre</h3>
+                <p>Ponts de baignoire relaxants, planches à découper style océan et verres sur mesure.</p>
+            </div>
+            <div class="cat-card">
+                <h3>Décorations</h3>
+                <p>Attrape-rêves géodes, horloges organiques et ornements de Noël luxueux.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- L'ARTISTE -->
+    <section id="about" class="bg-alt">
+        <div class="section-container about-container reveal">
+            <div class="about-img-wrapper">
+                <div class="about-img"></div> 
+            </div>
+            <div class="about-text">
+                <p style="color: var(--amethyst-kf); letter-spacing: 3px; text-transform: uppercase;">L'Esprit Créatif</p>
+                <h3>Karine Fortin</h3>
+                <p>Chaque coulée de résine est une danse entre le contrôle et le lâcher-prise. J'aime manipuler les pigments, la texture et la transparence pour recréer la beauté brute de la nature et des minéraux.</p>
+                <p>Que ce soit en superposant du verre concassé pour un effet de géode éclatant, ou en utilisant la chaleur pour créer l'écume parfaite d'une vague sur le bois, chaque pièce que je conçois est absolument unique et réalisée à la main dans mon atelier.</p>
+                <br>
+                <a href="#contact" class="btn-primary" style="border-color: var(--amethyst-kf);">Projet sur mesure</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERIE BENTO INFINIE -->
+    <section id="portfolio">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <p>Portfolio</p>
+                <h2>La Collection Kréation-KF</h2>
+            </div>
+
+            <div class="filter-container reveal">
+                <button class="filter-btn active" data-filter="all">Tout voir</button>
+                <button class="filter-btn" data-filter="mur">Toiles & Murales</button>
+                <button class="filter-btn" data-filter="bain">Planches & Bains</button>
+                <button class="filter-btn" data-filter="deco">Horloges & Décos</button>
+            </div>
+
+            <div class="bento-grid reveal">
+                
+                <div class="bento-item item-large" data-category="mur">
+                    <img src="images/19.jpg" alt="Grande toile époxy bleue">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Rivière de Cristaux</h4>
+                        <p>Toile Géode Grand Format</p>
+                    </div>
+                </div>
+
+                <div class="bento-item item-wide" data-category="bain">
+                    <img src="images/25.jpg" alt="Pont de baignoire océan">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Détente Océanique</h4>
+                        <p>Pont de baignoire en bois et résine</p>
+                    </div>
+                </div>
+
+                <div class="bento-item" data-category="mur">
+                    <img src="images/39.jpg" alt="Géode rouge">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Éruption Écarlate</h4>
+                        <p>Géode Murale Ronde</p>
+                    </div>
+                </div>
+
+                <div class="bento-item item-tall" data-category="bain">
+                    <img src="images/29.jpg" alt="Planches à découper style mer">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Écume et Bois</h4>
+                        <p>Collection de planches de service</p>
+                    </div>
+                </div>
+
+                <div class="bento-item" data-category="deco">
+                    <img src="images/15.jpg" alt="Horloge en résine">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Le Temps Précieux</h4>
+                        <p>Horloge murale texturée</p>
+                    </div>
+                </div>
+
+                <div class="bento-item" data-category="mur">
+                    <img src="images/40.jpg" alt="Toile ronde rose quartz">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Quartz Rose</h4>
+                        <p>Art Mural Douceur</p>
+                    </div>
+                </div>
+
+                <div class="bento-item" data-category="deco">
+                    <img src="images/1.jpg" alt="Boules de Noël époxy">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Magie des Fêtes</h4>
+                        <p>Ornements personnalisés</p>
+                    </div>
+                </div>
+
+                <div class="bento-item item-tall" data-category="deco">
+                    <img src="images/43.jpg" alt="Attrape-rêve résine">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Songes de Cristal</h4>
+                        <p>Attrape-rêves Géode</p>
+                    </div>
+                </div>
+
+                <div class="bento-item item-wide" data-category="mur">
+                    <img src="images/20.jpg" alt="Toile plage et étoiles de mer">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Évasion Côtière</h4>
+                        <p>Toile Paysage Résine</p>
+                    </div>
+                </div>
+
+                <div class="bento-item" data-category="bain">
+                    <img src="images/28.jpg" alt="Verres à vin époxy">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Soirée Étincelante</h4>
+                        <p>Verres personnalisés</p>
+                    </div>
+                </div>
+
+                <div class="bento-item" data-category="mur">
+                    <img src="images/47.jpg" alt="Toile Canadiens de Montréal">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Passion Hockey</h4>
+                        <p>Thématique Sportive</p>
+                    </div>
+                </div>
+
+                <div class="bento-item" data-category="mur">
+                    <img src="images/46.jpg" alt="Toile profil visage">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Profil Mystique</h4>
+                        <p>Art Abstrait</p>
+                    </div>
+                </div>
+
+                <div class="bento-item" data-category="mur">
+                    <img src="images/27.jpg" alt="Toile géode crème et or avec Karine">
+                    <div class="bento-overlay">
+                        <span class="zoom-icon">🔍</span>
+                        <h4>Douceur Minérale</h4>
+                        <p>Toile géode crème et or</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox">
+        <span id="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="Oeuvre agrandie">
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <h2 style="font-family: 'Cinzel', serif;">Kréation-KF</h2>
+        <p style="margin-top: 10px; color: #888; margin-bottom: 30px;">Pour commander une œuvre sur mesure, avec vos couleurs et vos dimensions.</p>
+        <div class="socials">
+            <a href="mailto:info@kreation-kf.com">Email</a>
+            <a href="https://www.facebook.com/profile.php?id=61570583414994" target="_blank">Facebook</a>
+            <a href="https://www.tiktok.com/@krinefortin" target="_blank">TikTok</a>
+        </div>
+        <p style="margin-top: 40px; font-size: 0.8rem; color: #444;">&copy; 2026 Kréation-KF. Tous droits réservés.</p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Navbar au scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        // Toggle Menu Mobile
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Fermer le menu mobile quand on clique sur un lien
+        document.querySelectorAll('.nav-links li a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Animations Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Filtres
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const bentoItems = document.querySelectorAll('.bento-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filterValue = btn.getAttribute('data-filter');
+
+                bentoItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.classList.remove('hide');
+                    } else {
+                        item.classList.add('hide');
+                    }
+                });
+            });
+        });
+
+        // Lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeBtn = document.getElementById('lightbox-close');
+
+        bentoItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imgElement = item.querySelector('img');
+                lightboxImg.src = imgElement.src; 
+                lightbox.classList.add('active'); 
+            });
+        });
+
+        closeBtn.addEventListener('click', () => lightbox.classList.remove('active'));
+        lightbox.addEventListener('click', (e) => {
+            if(e.target !== lightboxImg) lightbox.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
