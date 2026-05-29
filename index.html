@@ -208,13 +208,27 @@
             .about-img { height: 400px; }
             .filter-btn { padding: 8px 15px; font-size: 0.8rem; }
 
-            /* Grille de 2 colonnes passe à 1 seule colonne pour les téléphones */
-            .bento-grid { grid-template-columns: 1fr; grid-auto-rows: 250px; }
+            /* 1. IMAGES BEAUCOUP PLUS GRANDES SUR CELLULAIRE */
+            .bento-grid { 
+                grid-template-columns: 1fr; 
+                grid-auto-rows: 400px; /* Avant c'était 250px, on agrandit ! */
+            }
             
-            /* Annuler les tailles spéciales pour que tout rentre sur un petit écran */
             .item-large, .item-wide, .item-tall { 
                 grid-column: span 1; 
                 grid-row: span 1; 
+            }
+
+            /* 2. TITRES TOUJOURS VISIBLES SUR CELLULAIRE (Puisqu'il n'y a pas de souris) */
+            .bento-overlay {
+                opacity: 1; /* Rendu toujours visible */
+                background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+            }
+            .bento-overlay h4, .bento-overlay p {
+                transform: translateY(0); /* Reste en place */
+            }
+            .zoom-icon {
+                opacity: 0.7; /* La loupe reste un peu visible dans le coin */
             }
         }
     </style>
