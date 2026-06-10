@@ -4,7 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kréation-KF | Art Époxy par Karine Fortin</title>
-    
+
+    <!-- SEO -->
+    <meta name="description" content="Kréation-KF : art en résine époxy fait à la main par l'artiste Karine Fortin. Toiles géodes, planches de service, horloges et décorations uniques.">
+    <meta name="author" content="Karine Fortin">
+    <meta name="theme-color" content="#141417">
+
+    <!-- Partage sur les réseaux sociaux (Facebook, etc.) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Kréation-KF | Art Époxy par Karine Fortin">
+    <meta property="og:description" content="Des textures organiques, des cristaux étincelants et une profondeur fascinante. L'élégance moderne signée Karine Fortin.">
+    <meta property="og:image" content="https://kreation-kf.vercel.app/images/19.jpg">
+    <meta property="og:url" content="https://kreation-kf.vercel.app/">
+    <meta property="og:locale" content="fr_CA">
+
+    <!-- Aperçu Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kréation-KF | Art Époxy par Karine Fortin">
+    <meta name="twitter:description" content="Des textures organiques, des cristaux étincelants et une profondeur fascinante. L'élégance moderne signée Karine Fortin.">
+    <meta name="twitter:image" content="https://kreation-kf.vercel.app/images/19.jpg">
+
+    <!-- Favicon (lettres KF en cyan, dessiné en SVG, aucun fichier requis) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23141417'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-weight='bold' fill='%2300bfff' text-anchor='middle'%3EKF%3C/text%3E%3C/svg%3E">
+
     <!-- Polices modernes -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     
@@ -160,7 +182,19 @@
         }
         #lightbox.active { opacity: 1; pointer-events: auto; }
         #lightbox img { max-width: 90%; max-height: 90%; border-radius: 5px; box-shadow: 0 0 50px rgba(0, 191, 255, 0.2); }
-        #lightbox-close { position: absolute; top: 30px; right: 40px; color: #fff; font-size: 3rem; cursor: pointer; }
+        #lightbox-close { position: absolute; top: 30px; right: 40px; color: #fff; font-size: 3rem; cursor: pointer; line-height: 1; z-index: 2001; }
+        .lightbox-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            color: #fff; font-size: 2.5rem; cursor: pointer; padding: 20px;
+            user-select: none; transition: color 0.3s ease; z-index: 2001;
+        }
+        .lightbox-arrow:hover { color: var(--cyan-kf); }
+        #lightbox-prev { left: 20px; }
+        #lightbox-next { right: 20px; }
+        @media (max-width: 600px) {
+            .lightbox-arrow { font-size: 2rem; padding: 10px; }
+            #lightbox-close { top: 15px; right: 20px; }
+        }
 
         /* --- FOOTER --- */
         footer { text-align: center; padding: 60px 20px; background: #0a0a0d; border-top: 1px solid var(--glass-border); }
@@ -324,7 +358,7 @@
                 </div>
 
                 <div class="bento-item item-wide" data-category="bain">
-                    <img src="images/25.jpg" alt="Pont de baignoire océan">
+                    <img src="images/25.jpg" alt="Pont de baignoire océan" loading="lazy">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Détente Océanique</h4>
@@ -333,7 +367,7 @@
                 </div>
 
                 <div class="bento-item" data-category="mur">
-                    <img src="images/39.jpg" alt="Géode rouge">
+                    <img src="images/39.jpg" alt="Géode rouge" loading="lazy">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Éruption Écarlate</h4>
@@ -342,7 +376,7 @@
                 </div>
 
                 <div class="bento-item item-tall" data-category="bain">
-                    <img src="images/29.jpg" alt="Planches à découper style mer">
+                    <img src="images/29.jpg" alt="Planches à découper style mer" loading="lazy">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Écume et Bois</h4>
@@ -351,7 +385,7 @@
                 </div>
 
                 <div class="bento-item" data-category="deco">
-                    <img src="images/15.jpg" alt="Horloge en résine">
+                    <img src="images/15.jpg" alt="Horloge en résine" loading="lazy">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Le Temps Précieux</h4>
@@ -360,7 +394,7 @@
                 </div>
 
                 <div class="bento-item" data-category="mur">
-                    <img src="images/40.jpg" alt="Toile ronde rose quartz">
+                    <img src="images/40.jpg" alt="Toile ronde rose quartz" loading="lazy">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Quartz Rose</h4>
@@ -369,7 +403,7 @@
                 </div>
 
                 <div class="bento-item" data-category="deco">
-                    <img src="images/1.jpg" alt="Boules de Noël époxy">
+                    <img src="images/1.jpg" alt="Boules de Noël époxy" loading="lazy">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Magie des Fêtes</h4>
@@ -378,7 +412,7 @@
                 </div>
 
                 <div class="bento-item item-tall" data-category="deco">
-                    <img src="images/16.jpg" alt="Attrape-rêve résine">
+                    <img src="images/16.jpg" alt="Attrape-rêve résine" loading="lazy">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Songes de Cristal</h4>
@@ -387,7 +421,7 @@
                 </div>
 
                 <div class="bento-item item-wide" data-category="mur">
-                    <img src="images/20.jpg" alt="Toile plage et étoiles de mer">
+                    <img src="images/20.jpg" alt="Toile plage et étoiles de mer" loading="lazy">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Évasion Côtière</h4>
@@ -396,7 +430,7 @@
                 </div>
 
                 <div class="bento-item" data-category="bain">
-                    <img src="images/28.jpg" alt="Verres à vin époxy">
+                    <img src="images/28.jpg" alt="Verres à vin époxy" loading="lazy">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Soirée Étincelante</h4>
@@ -405,7 +439,7 @@
                 </div>
 
                 <div class="bento-item" data-category="mur">
-                    <img src="images/47.jpg" alt="Toile Canadiens de Montréal">
+                    <img src="images/47.jpg" alt="Toile Canadiens de Montréal" loading="lazy">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Passion Hockey</h4>
@@ -414,7 +448,7 @@
                 </div>
 
                 <div class="bento-item" data-category="mur">
-                    <img src="images/13.jpg" alt="Toile profil visage">
+                    <img src="images/13.jpg" alt="Toile profil visage" loading="lazy">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Profil Mystique</h4>
@@ -423,7 +457,7 @@
                 </div>
 
                 <div class="bento-item" data-category="mur">
-                    <img src="images/27.jpg" alt="Toile géode crème et or avec Karine">
+                    <img src="images/27.jpg" alt="Toile géode crème et or avec Karine" loading="lazy">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Douceur Minérale</h4>
@@ -437,8 +471,10 @@
 
     <!-- LIGHTBOX -->
     <div id="lightbox">
-        <span id="lightbox-close">&times;</span>
+        <span id="lightbox-close" title="Fermer (Échap)">&times;</span>
+        <span id="lightbox-prev" class="lightbox-arrow" title="Précédente (←)">&#10094;</span>
         <img id="lightbox-img" src="" alt="Oeuvre agrandie">
+        <span id="lightbox-next" class="lightbox-arrow" title="Suivante (→)">&#10095;</span>
     </div>
 
     <!-- FOOTER -->
@@ -446,7 +482,7 @@
         <h2 style="font-family: 'Cinzel', serif;">Kréation-KF</h2>
         <p style="margin-top: 10px; color: #888; margin-bottom: 30px;">Pour commander une œuvre sur mesure, avec vos couleurs et vos dimensions.</p>
         <div class="socials">
-            <a href="mailto:info@kreation-kf.com">Email</a>
+            <a href="mailto:kreationkf@hotmail.com">Email</a>
             <a href="https://www.facebook.com/profile.php?id=61570583414994" target="_blank">Facebook</a>
             <a href="https://www.tiktok.com/@krinefortin" target="_blank">TikTok</a>
         </div>
@@ -515,18 +551,47 @@
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
         const closeBtn = document.getElementById('lightbox-close');
+        const prevBtn = document.getElementById('lightbox-prev');
+        const nextBtn = document.getElementById('lightbox-next');
+
+        let currentIndex = 0;       // position dans la liste des œuvres visibles
+        let visibleItems = [];      // œuvres affichées (selon le filtre actif)
+
+        function showImageAt(index) {
+            // On boucle : après la dernière on revient à la première, et vice-versa
+            currentIndex = (index + visibleItems.length) % visibleItems.length;
+            const img = visibleItems[currentIndex].querySelector('img');
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+        }
+
+        function openLightbox(item) {
+            // Liste des œuvres actuellement visibles (on ignore celles cachées par le filtre)
+            visibleItems = Array.from(bentoItems).filter(el => !el.classList.contains('hide'));
+            showImageAt(visibleItems.indexOf(item));
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() { lightbox.classList.remove('active'); }
 
         bentoItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const imgElement = item.querySelector('img');
-                lightboxImg.src = imgElement.src; 
-                lightbox.classList.add('active'); 
-            });
+            item.addEventListener('click', () => openLightbox(item));
         });
 
-        closeBtn.addEventListener('click', () => lightbox.classList.remove('active'));
+        prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showImageAt(currentIndex - 1); });
+        nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showImageAt(currentIndex + 1); });
+
+        closeBtn.addEventListener('click', closeLightbox);
         lightbox.addEventListener('click', (e) => {
-            if(e.target !== lightboxImg) lightbox.classList.remove('active');
+            if (e.target !== lightboxImg) closeLightbox();
+        });
+
+        // Navigation au clavier
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            else if (e.key === 'ArrowLeft') showImageAt(currentIndex - 1);
+            else if (e.key === 'ArrowRight') showImageAt(currentIndex + 1);
         });
     </script>
 </body>
