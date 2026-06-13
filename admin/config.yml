@@ -1,0 +1,54 @@
+# =============================================================
+#  Configuration de l'éditeur (Sveltia CMS)
+# =============================================================
+# Maman se connecte sur /admin/ avec GitHub, ajoute ses photos,
+# puis clique « Publish ». Tout se publie en direct sur le site.
+#
+# ⚠️  AVANT que ça fonctionne, Shawn doit faire UNE seule fois la
+#     configuration décrite dans admin/SETUP.md (créer une « GitHub
+#     OAuth App » + déployer le petit serveur de connexion gratuit),
+#     puis remplacer l'adresse "base_url" ci-dessous.
+# =============================================================
+
+backend:
+  name: github
+  repo: MrKillerVortex/mom-website
+  branch: main
+  # Serveur de connexion (worker Cloudflare de Shawn)
+  base_url: https://sveltia-cms-auth.shawn-2002.workers.dev
+
+# Dossier où sont enregistrées les photos téléversées
+media_folder: "images"
+public_folder: "/images"
+
+# Langue de l'interface
+locale: fr
+
+collections:
+  - name: "galerie"
+    label: "🎨 Galerie de Maman"
+    label_singular: "œuvre"
+    description: "Ajoutez vos nouvelles créations ici."
+    files:
+      - name: "oeuvres"
+        label: "Mes œuvres"
+        file: "data/oeuvres.json"
+        description: "Cliquez sur « Add Mes œuvres » pour ajouter une création."
+        fields:
+          - label: "Œuvres"
+            label_singular: "œuvre"
+            name: "oeuvres"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Photo", name: "img", widget: "image" }
+              - { label: "Titre", name: "title", widget: "string", hint: "Le nom de l'œuvre" }
+              - { label: "Description", name: "desc", widget: "string", hint: "Une courte phrase (ex : Toile géode bleue et or)" }
+              - label: "Catégorie"
+                name: "category"
+                widget: "select"
+                default: "mur"
+                options:
+                  - { label: "Toiles & Murales", value: "mur" }
+                  - { label: "Planches & Verres", value: "bain" }
+                  - { label: "Horloges & Décos", value: "deco" }

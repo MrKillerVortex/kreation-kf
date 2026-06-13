@@ -1642,72 +1642,122 @@
         }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
         revealElements.forEach(el => revealObserver.observe(el));
 
-        // Filtres
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const bentoItems = document.querySelectorAll('.bento-item');
+        // --- Œuvres ajoutées par Maman (via /admin/) ---
+        // On lit data/oeuvres.json et on insère chaque création EN HAUT de la
+        // grille, pour que les nouveautés soient vues en premier.
+        async function chargerOeuvresMaman() {
+            try {
+                const res = await fetch('data/oeuvres.json', { cache: 'no-store' });
+                if (!res.ok) return;
+                const data = await res.json();
+                const liste = (data && Array.isArray(data.oeuvres)) ? data.oeuvres : [];
+                const grille = document.querySelector('.bento-grid');
+                if (!grille || !liste.length) return;
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const filterValue = btn.getAttribute('data-filter');
+                liste.forEach(o => {
+                    if (!o || !o.img) return;
+                    const item = document.createElement('div');
+                    item.className = 'bento-item';
+                    item.setAttribute('data-category', o.category || 'mur');
 
-                bentoItems.forEach(item => {
-                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                        item.classList.remove('hide');
-                    } else {
-                        item.classList.add('hide');
-                    }
+                    const img = document.createElement('img');
+                    img.src = o.img;
+                    img.alt = o.title || 'Œuvre Kréation-KF';
+                    img.loading = 'lazy';
+
+                    const overlay = document.createElement('div');
+                    overlay.className = 'bento-overlay';
+                    overlay.innerHTML = '<span class="zoom-icon">&#128269;</span>';
+
+                    const h4 = document.createElement('h4');
+                    h4.textContent = o.title || '';
+                    const p = document.createElement('p');
+                    p.textContent = o.desc || '';
+
+                    overlay.appendChild(h4);
+                    overlay.appendChild(p);
+                    item.appendChild(img);
+                    item.appendChild(overlay);
+                    // prepend => la dernière œuvre ajoutée se retrouve tout en haut
+                    grille.prepend(item);
+                });
+            } catch (e) {
+                // En cas de souci, la galerie d'origine reste affichée normalement.
+            }
+        }
+
+        // Filtres + Lightbox : on les active APRÈS avoir inséré les œuvres de
+        // Maman, pour qu'elles soient incluses dans le tri et l'agrandissement.
+        function activerGalerie() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const bentoItems = document.querySelectorAll('.bento-item');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const filterValue = btn.getAttribute('data-filter');
+
+                    bentoItems.forEach(item => {
+                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                            item.classList.remove('hide');
+                        } else {
+                            item.classList.add('hide');
+                        }
+                    });
                 });
             });
-        });
 
-        // Lightbox
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-        const closeBtn = document.getElementById('lightbox-close');
-        const prevBtn = document.getElementById('lightbox-prev');
-        const nextBtn = document.getElementById('lightbox-next');
+            // Lightbox
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const closeBtn = document.getElementById('lightbox-close');
+            const prevBtn = document.getElementById('lightbox-prev');
+            const nextBtn = document.getElementById('lightbox-next');
 
-        let currentIndex = 0;       // position dans la liste des œuvres visibles
-        let visibleItems = [];      // œuvres affichées (selon le filtre actif)
+            let currentIndex = 0;       // position dans la liste des œuvres visibles
+            let visibleItems = [];      // œuvres affichées (selon le filtre actif)
 
-        function showImageAt(index) {
-            // On boucle : après la dernière on revient à la première, et vice-versa
-            currentIndex = (index + visibleItems.length) % visibleItems.length;
-            const img = visibleItems[currentIndex].querySelector('img');
-            lightboxImg.src = img.src;
-            lightboxImg.alt = img.alt;
+            function showImageAt(index) {
+                // On boucle : après la dernière on revient à la première, et vice-versa
+                currentIndex = (index + visibleItems.length) % visibleItems.length;
+                const img = visibleItems[currentIndex].querySelector('img');
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+            }
+
+            function openLightbox(item) {
+                // Liste des œuvres actuellement visibles (on ignore celles cachées par le filtre)
+                visibleItems = Array.from(bentoItems).filter(el => !el.classList.contains('hide'));
+                showImageAt(visibleItems.indexOf(item));
+                lightbox.classList.add('active');
+            }
+
+            function closeLightbox() { lightbox.classList.remove('active'); }
+
+            bentoItems.forEach(item => {
+                item.addEventListener('click', () => openLightbox(item));
+            });
+
+            prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showImageAt(currentIndex - 1); });
+            nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showImageAt(currentIndex + 1); });
+
+            closeBtn.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target !== lightboxImg) closeLightbox();
+            });
+
+            // Navigation au clavier
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                else if (e.key === 'ArrowLeft') showImageAt(currentIndex - 1);
+                else if (e.key === 'ArrowRight') showImageAt(currentIndex + 1);
+            });
         }
 
-        function openLightbox(item) {
-            // Liste des œuvres actuellement visibles (on ignore celles cachées par le filtre)
-            visibleItems = Array.from(bentoItems).filter(el => !el.classList.contains('hide'));
-            showImageAt(visibleItems.indexOf(item));
-            lightbox.classList.add('active');
-        }
-
-        function closeLightbox() { lightbox.classList.remove('active'); }
-
-        bentoItems.forEach(item => {
-            item.addEventListener('click', () => openLightbox(item));
-        });
-
-        prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showImageAt(currentIndex - 1); });
-        nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showImageAt(currentIndex + 1); });
-
-        closeBtn.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', (e) => {
-            if (e.target !== lightboxImg) closeLightbox();
-        });
-
-        // Navigation au clavier
-        document.addEventListener('keydown', (e) => {
-            if (!lightbox.classList.contains('active')) return;
-            if (e.key === 'Escape') closeLightbox();
-            else if (e.key === 'ArrowLeft') showImageAt(currentIndex - 1);
-            else if (e.key === 'ArrowRight') showImageAt(currentIndex + 1);
-        });
+        // On charge d'abord les œuvres de Maman, puis on active la galerie.
+        chargerOeuvresMaman().finally(activerGalerie);
     </script>
 </body>
 </html>
