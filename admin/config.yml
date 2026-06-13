@@ -12,7 +12,7 @@
 
 backend:
   name: github
-  repo: MrKillerVortex/mom-website
+  repo: MrKillerVortex/kreation-kf
   branch: main
   # Serveur de connexion (worker Cloudflare de Shawn)
   base_url: https://sveltia-cms-auth.shawn-2002.workers.dev
