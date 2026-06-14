@@ -173,7 +173,14 @@
 
         .item-large { grid-column: span 2; grid-row: span 2; } 
         .item-wide { grid-column: span 2; grid-row: span 1; }  
-        .item-tall { grid-column: span 1; grid-row: span 2; }  
+        .item-tall { grid-column: span 1; grid-row: span 2; }
+
+        /* --- VIDÉO ATELIER --- */
+        .video-wrapper { display: flex; justify-content: center; margin-top: 40px; }
+        .video-wrapper video {
+            width: 100%; max-width: 380px; border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.45); background: #000; display: block;
+        }
 
         /* --- LIGHTBOX --- */
         #lightbox {
@@ -327,6 +334,23 @@
                 <p>Chaque coulée de résine est une danse entre le contrôle et le lâcher-prise. J'aime manipuler les pigments, la texture et la transparence pour recréer la beauté brute de la nature et des minéraux.</p>
                 <p>Que ce soit en superposant du verre concassé pour un effet de géode éclatant, ou en utilisant la chaleur pour créer l'écume parfaite d'une vague sur le bois, chaque pièce que je conçois est absolument unique et réalisée à la main dans mon atelier.</p>
                 <br>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIDÉO ATELIER -->
+    <section id="atelier-video" class="bg-alt">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <p>En coulisses</p>
+                <h2>Au cœur de l'atelier</h2>
+            </div>
+            <div class="video-wrapper reveal">
+                <video controls playsinline preload="none"
+                       poster="videos/mom-video-poster.jpg">
+                    <source src="videos/mom-video.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la lecture vidéo.
+                </video>
             </div>
         </div>
     </section>
