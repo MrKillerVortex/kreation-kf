@@ -175,12 +175,28 @@
         .item-wide { grid-column: span 2; grid-row: span 1; }  
         .item-tall { grid-column: span 1; grid-row: span 2; }
 
-        /* --- VIDÉO ATELIER --- */
-        .video-wrapper { display: flex; justify-content: center; margin-top: 40px; }
+        /* --- VIDÉO ATELIER (coulisses) --- */
+        .video-wrapper { display: flex; flex-wrap: wrap; justify-content: center; gap: 35px; margin-top: 40px; }
+        .video-figure { width: 100%; max-width: 380px; margin: 0; }
         .video-wrapper video {
             width: 100%; max-width: 380px; border-radius: 15px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.45); background: #000; display: block;
         }
+        .video-figure figcaption { text-align: center; color: var(--silver-kf); margin-top: 14px; }
+        .video-figure figcaption strong { display: block; font-size: 1.15rem; }
+        .video-figure figcaption span { color: var(--cyan-kf); font-size: 0.85rem; letter-spacing: 1px; }
+
+        /* --- VIDÉOS dans la galerie bento --- */
+        .bento-item video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
+        .bento-item.video-item { cursor: default; }
+        .bento-item.video-item .bento-overlay {
+            pointer-events: none; opacity: 1;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, transparent 35%);
+            justify-content: flex-start;
+        }
+        .bento-item.video-item .bento-overlay h4,
+        .bento-item.video-item .bento-overlay p { transform: translateY(0); }
+        .bento-item.video-item:hover img { transform: none; }
 
         /* --- LIGHTBOX --- */
         #lightbox {
@@ -345,12 +361,14 @@
                 <p>En coulisses</p>
                 <h2>Au cœur de l'atelier</h2>
             </div>
-            <div class="video-wrapper reveal">
-                <video controls playsinline preload="none"
-                       poster="videos/mom-video-poster.jpg">
-                    <source src="videos/mom-video.mp4" type="video/mp4">
-                    Votre navigateur ne supporte pas la lecture vidéo.
-                </video>
+            <div class="video-wrapper reveal" id="coulisses-videos">
+                <figure class="video-figure">
+                    <video controls playsinline preload="none"
+                           poster="videos/mom-video-poster.jpg">
+                        <source src="videos/mom-video.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la lecture vidéo.
+                    </video>
+                </figure>
             </div>
         </div>
     </section>
@@ -1755,6 +1773,79 @@
             }
         }
 
+        // --- Vidéos ajoutées par Maman dans la GALERIE (via /admin/) ---
+        async function chargerVideosPortfolio() {
+            try {
+                const res = await fetch('data/videos-portfolio.json', { cache: 'no-store' });
+                if (!res.ok) return;
+                const data = await res.json();
+                const liste = (data && Array.isArray(data.videos)) ? data.videos : [];
+                const grille = document.querySelector('.bento-grid');
+                if (!grille || !liste.length) return;
+
+                liste.forEach(v => {
+                    if (!v || !v.video) return;
+                    const item = document.createElement('div');
+                    item.className = 'bento-item video-item item-tall';
+                    item.setAttribute('data-category', v.category || 'mur');
+
+                    const video = document.createElement('video');
+                    video.src = v.video;
+                    if (v.poster) video.poster = v.poster;
+                    video.controls = true;
+                    video.playsInline = true;
+                    video.preload = 'none';
+
+                    const overlay = document.createElement('div');
+                    overlay.className = 'bento-overlay';
+                    const h4 = document.createElement('h4');
+                    h4.textContent = v.title || '';
+                    const p = document.createElement('p');
+                    p.textContent = v.desc || '';
+                    overlay.appendChild(h4);
+                    overlay.appendChild(p);
+
+                    item.appendChild(video);
+                    item.appendChild(overlay);
+                    grille.prepend(item);
+                });
+            } catch (e) { /* la galerie reste affichée normalement */ }
+        }
+
+        // --- Vidéos ajoutées par Maman dans les COULISSES (via /admin/) ---
+        async function chargerCoulisses() {
+            try {
+                const res = await fetch('data/coulisses.json', { cache: 'no-store' });
+                if (!res.ok) return;
+                const data = await res.json();
+                const liste = (data && Array.isArray(data.videos)) ? data.videos : [];
+                const conteneur = document.getElementById('coulisses-videos');
+                if (!conteneur || !liste.length) return;
+
+                liste.forEach(v => {
+                    if (!v || !v.video) return;
+                    const figure = document.createElement('figure');
+                    figure.className = 'video-figure';
+
+                    const video = document.createElement('video');
+                    video.src = v.video;
+                    if (v.poster) video.poster = v.poster;
+                    video.controls = true;
+                    video.playsInline = true;
+                    video.preload = 'none';
+                    figure.appendChild(video);
+
+                    if (v.title || v.desc) {
+                        const cap = document.createElement('figcaption');
+                        if (v.title) { const s = document.createElement('strong'); s.textContent = v.title; cap.appendChild(s); }
+                        if (v.desc)  { const d = document.createElement('span');  d.textContent = v.desc;  cap.appendChild(d); }
+                        figure.appendChild(cap);
+                    }
+                    conteneur.appendChild(figure);
+                });
+            } catch (e) { /* la vidéo d'origine reste affichée normalement */ }
+        }
+
         // Filtres + Lightbox : on les active APRÈS avoir inséré les œuvres de
         // Maman, pour qu'elles soient incluses dans le tri et l'agrandissement.
         function activerGalerie() {
@@ -1797,7 +1888,7 @@
 
             function openLightbox(item) {
                 // Liste des œuvres actuellement visibles (on ignore celles cachées par le filtre)
-                visibleItems = Array.from(bentoItems).filter(el => !el.classList.contains('hide'));
+                visibleItems = Array.from(bentoItems).filter(el => !el.classList.contains('hide') && !el.classList.contains('video-item'));
                 showImageAt(visibleItems.indexOf(item));
                 lightbox.classList.add('active');
             }
@@ -1805,6 +1896,8 @@
             function closeLightbox() { lightbox.classList.remove('active'); }
 
             bentoItems.forEach(item => {
+                // Les vidéos gardent leurs propres contrôles : pas de lightbox.
+                if (item.classList.contains('video-item')) return;
                 item.addEventListener('click', () => openLightbox(item));
             });
 
@@ -1825,8 +1918,11 @@
             });
         }
 
-        // On charge d'abord les œuvres de Maman, puis on active la galerie.
-        chargerOeuvresMaman().finally(activerGalerie);
+        // On charge d'abord les œuvres + vidéos de Maman, puis on active la galerie
+        // (pour qu'elles soient incluses dans les filtres et la lightbox).
+        Promise.allSettled([chargerOeuvresMaman(), chargerVideosPortfolio()]).finally(activerGalerie);
+        // Les vidéos « coulisses » sont indépendantes de la galerie.
+        chargerCoulisses();
     </script>
 </body>
 </html>

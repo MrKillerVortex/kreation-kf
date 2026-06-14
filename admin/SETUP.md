@@ -76,6 +76,23 @@ comme collaborateur du dépôt `MrKillerVortex/mom-website`), puis :
 Quelques secondes plus tard, sa création apparaît **en haut de la galerie**
 du vrai site, visible par tout le monde.
 
+### Ajouter une vidéo
+
+En plus des photos, Maman peut maintenant ajouter des **vidéos** à deux endroits :
+
+- **🎬 Galerie de Maman → Mes vidéos (galerie)** : la vidéo apparaît dans la
+  galerie, parmi les œuvres.
+- **🎥 Coulisses / Atelier → Mes vidéos d'atelier** : la vidéo apparaît dans la
+  section « Au cœur de l'atelier ».
+
+Dans les deux cas : **Add Vidéos** → choisir le fichier `.mp4`, (option : une
+image de couverture), un titre, puis **Publish**.
+
+> ⚠️ **Important pour les vidéos** : gardez chaque fichier **léger (< ~20 Mo)**.
+> Le téléversement passe par GitHub, qui refuse les gros fichiers. Pour une
+> longue vidéo, demandez à Shawn de la compresser d'abord (ou utilisez un clip
+> court). Astuce : préférez des clips de 10-30 secondes.
+
 > 💡 Astuce : pour qu'elle puisse publier, ajoute son compte GitHub comme
 > **collaborateur** du dépôt (GitHub → repo → Settings → Collaborators).
 > Si tu préfères qu'elle utilise TON compte, elle se connectera simplement

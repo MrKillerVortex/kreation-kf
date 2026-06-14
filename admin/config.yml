@@ -52,3 +52,50 @@ collections:
                   - { label: "Toiles & Murales", value: "mur" }
                   - { label: "Planches & Verres", value: "bain" }
                   - { label: "Horloges & Décos", value: "deco" }
+
+      # --- VIDÉOS dans la galerie (portfolio) ---
+      - name: "videos-portfolio"
+        label: "🎬 Mes vidéos (galerie)"
+        file: "data/videos-portfolio.json"
+        description: "Ajoutez de courtes vidéos qui apparaîtront dans la galerie, parmi vos œuvres."
+        fields:
+          - label: "Vidéos"
+            label_singular: "vidéo"
+            name: "videos"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Vidéo (fichier .mp4)", name: "video", widget: "file", media_folder: "/videos", public_folder: "/videos", hint: "Courte vidéo. ⚠️ Gardez-la légère (moins de ~20 Mo)." }
+              - { label: "Image de couverture (optionnel)", name: "poster", widget: "image", required: false, hint: "L'image affichée avant que la vidéo démarre." }
+              - { label: "Titre", name: "title", widget: "string" }
+              - { label: "Description", name: "desc", widget: "string", required: false }
+              - label: "Catégorie"
+                name: "category"
+                widget: "select"
+                default: "mur"
+                options:
+                  - { label: "Toiles & Murales", value: "mur" }
+                  - { label: "Planches & Verres", value: "bain" }
+                  - { label: "Horloges & Décos", value: "deco" }
+
+  # --- COULISSES / ATELIER (vidéos uniquement) ---
+  - name: "coulisses"
+    label: "🎥 Coulisses / Atelier"
+    label_singular: "vidéo"
+    description: "Vidéos des coulisses : vous au travail dans l'atelier."
+    files:
+      - name: "videos-coulisses"
+        label: "Mes vidéos d'atelier"
+        file: "data/coulisses.json"
+        description: "Cliquez sur « Add Vidéos » pour ajouter une vidéo des coulisses."
+        fields:
+          - label: "Vidéos"
+            label_singular: "vidéo"
+            name: "videos"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Vidéo (fichier .mp4)", name: "video", widget: "file", media_folder: "/videos", public_folder: "/videos", hint: "Courte vidéo. ⚠️ Gardez-la légère (moins de ~20 Mo)." }
+              - { label: "Image de couverture (optionnel)", name: "poster", widget: "image", required: false }
+              - { label: "Titre", name: "title", widget: "string", required: false }
+              - { label: "Description", name: "desc", widget: "string", required: false }
