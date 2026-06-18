@@ -2,15 +2,61 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="robots" content="noindex">
     <title>Ajouter une œuvre | Kréation-KF</title>
+    <style>
+        /* Message affiché tant que l'éditeur n'est pas chargé.
+           Sveltia remplace tout le contenu du <body> une fois prêt,
+           donc ce texte disparaît automatiquement. S'il RESTE affiché,
+           c'est que le navigateur n'a pas réussi à lancer l'éditeur. */
+        html, body { margin: 0; height: 100%; background: #0a0a0d; color: #eee;
+            font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
+        #chargement { display: flex; flex-direction: column; align-items: center;
+            justify-content: center; min-height: 100vh; padding: 24px; text-align: center; box-sizing: border-box; }
+        #chargement h1 { font-size: 1.3rem; margin: 0 0 12px; }
+        #chargement p { color: #999; max-width: 420px; line-height: 1.5; margin: 6px 0; }
+        #chargement a { color: #4fd1e0; }
+        .spinner { width: 38px; height: 38px; margin-bottom: 22px; border: 3px solid #333;
+            border-top-color: #4fd1e0; border-radius: 50%; animation: spin 0.9s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #aide-lente { display: none; margin-top: 20px; padding-top: 18px; border-top: 1px solid #2a2a2e; }
+    </style>
 </head>
 <body>
     <!-- Interface d'administration (Sveltia CMS).
          Maman se connecte ici, téléverse une photo, écrit un titre et une
          description, puis clique sur « Publish ». La nouvelle œuvre apparaît
          automatiquement sur le site quelques instants plus tard. -->
-    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js" type="module"></script>
+
+    <div id="chargement">
+        <div class="spinner"></div>
+        <h1>Chargement de l'éditeur…</h1>
+        <p>Un instant, votre espace d'édition se prépare.</p>
+        <div id="aide-lente">
+            <p><strong>Vous êtes sur un téléphone&nbsp;?</strong></p>
+            <p>Sur mobile, choisissez <strong>« Sign in with Token »</strong> (et non
+               « Login with GitHub ») sur l'écran de connexion, puis collez votre jeton.
+               Cette méthode fonctionne sur iPhone et Android.</p>
+            <p style="color:#777">Vous n'avez pas de jeton&nbsp;? Demandez-le à Shawn —
+               ou publiez depuis un ordinateur, où « Login with GitHub » fonctionne aussi.</p>
+        </div>
+    </div>
+
+    <!-- data-cfasync="false" : empêche certains optimiseurs (Cloudflare Rocket
+         Loader, etc.) de casser le script de l'éditeur → écran blanc. -->
+    <script
+        data-cfasync="false"
+        src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"
+        type="module"></script>
+
+    <script>
+        // Après 6 s, si l'éditeur n'a toujours pas remplacé la page, on affiche
+        // un texte d'aide au lieu de laisser Maman devant un écran figé.
+        setTimeout(function () {
+            var aide = document.getElementById('aide-lente');
+            if (aide) aide.style.display = 'block';
+        }, 6000);
+    </script>
 </body>
 </html>
