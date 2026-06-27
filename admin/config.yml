@@ -99,3 +99,25 @@ collections:
               - { label: "Image de couverture (optionnel)", name: "poster", widget: "image", required: false }
               - { label: "Titre", name: "title", widget: "string", required: false }
               - { label: "Description", name: "desc", widget: "string", required: false }
+
+  # --- ŒUVRES À VENDRE (photos + prix) ---
+  - name: "a-vendre"
+    label: "💰 À vendre"
+    label_singular: "œuvre à vendre"
+    description: "Ajoutez ici les œuvres disponibles à l'achat, avec leur prix."
+    files:
+      - name: "oeuvres-a-vendre"
+        label: "Mes œuvres à vendre"
+        file: "data/a-vendre.json"
+        description: "Cliquez sur « Add Mes œuvres à vendre » pour mettre une œuvre en vente."
+        fields:
+          - label: "Œuvres à vendre"
+            label_singular: "œuvre"
+            name: "oeuvres"
+            widget: "list"
+            summary: "{{fields.title}} — {{fields.price}}"
+            fields:
+              - { label: "Photo", name: "img", widget: "image" }
+              - { label: "Titre", name: "title", widget: "string", hint: "Le nom de l'œuvre" }
+              - { label: "Description", name: "desc", widget: "string", required: false, hint: "Dimensions, matériaux, etc. (facultatif)" }
+              - { label: "Prix", name: "price", widget: "string", hint: "Ex : 250 $  — ou écrivez « Prix sur demande »" }

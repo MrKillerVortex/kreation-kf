@@ -198,6 +198,21 @@
         .bento-item.video-item .bento-overlay p { transform: translateY(0); }
         .bento-item.video-item:hover img { transform: none; }
 
+        /* --- À VENDRE --- */
+        .vendre-intro { text-align: center; max-width: 720px; margin: -30px auto 50px; color: #aaa; line-height: 1.6; }
+        .vendre-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .vendre-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.4s ease, border-color 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .vendre-card:hover { transform: translateY(-8px); border-color: var(--cyan-kf); }
+        .vendre-card-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; background: #000; display: block; cursor: pointer; transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1); }
+        .vendre-card:hover .vendre-card-img { transform: scale(1.05); }
+        .vendre-card-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+        .vendre-card-body h4 { font-size: 1.2rem; color: var(--silver-kf); margin-bottom: 8px; }
+        .vendre-desc { color: #999; font-size: 0.9rem; line-height: 1.5; margin-bottom: 18px; flex: 1; }
+        .vendre-price { font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--cyan-kf); margin-bottom: 18px; }
+        .vendre-btn { display: inline-block; text-align: center; padding: 12px 20px; border-radius: 999px; border: 1px solid var(--cyan-kf); color: var(--cyan-kf); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 2px; transition: background 0.3s, color 0.3s; }
+        .vendre-btn:hover { background: var(--cyan-kf); color: #000; box-shadow: 0 0 20px rgba(0, 191, 255, 0.35); }
+        .vendre-vide { grid-column: 1 / -1; text-align: center; color: #777; padding: 50px 0; }
+
         /* --- LIGHTBOX --- */
         #lightbox {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000;
@@ -308,6 +323,7 @@
             <li><a href="#services">Catégories</a></li>
             <li><a href="#about">L'Artiste</a></li>
             <li><a href="#portfolio">Œuvres</a></li>
+            <li><a href="#a-vendre">À vendre</a></li>
         </ul>
     </nav>
 
@@ -1671,6 +1687,20 @@
         </div>
     </section>
 
+    <!-- À VENDRE -->
+    <section id="a-vendre" class="bg-alt">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <p>Disponibles</p>
+                <h2>Œuvres à vendre</h2>
+            </div>
+            <p class="vendre-intro reveal">Ces créations sont disponibles à l'achat. Chaque pièce est unique &mdash; contactez Karine pour en faire l'acquisition.</p>
+            <div class="vendre-grid reveal" id="vendre-grid">
+                <p class="vendre-vide" id="vendre-vide">Aucune œuvre à vendre pour le moment. Revenez bientôt&nbsp;!</p>
+            </div>
+        </div>
+    </section>
+
     <!-- LIGHTBOX -->
     <div id="lightbox">
         <span id="lightbox-close" title="Fermer (Échap)">&times;</span>
@@ -1848,6 +1878,71 @@
             } catch (e) { /* la vidéo d'origine reste affichée normalement */ }
         }
 
+        // --- Œuvres À VENDRE ajoutées par Maman (via /admin/) ---
+        // On lit data/a-vendre.json et on affiche chaque œuvre disponible
+        // avec son prix et un bouton « Je suis intéressé(e) » (email).
+        async function chargerAVendre() {
+            try {
+                const res = await fetch('data/a-vendre.json', { cache: 'no-store' });
+                if (!res.ok) return;
+                const data = await res.json();
+                const liste = (data && Array.isArray(data.oeuvres)) ? data.oeuvres : [];
+                const grille = document.getElementById('vendre-grid');
+                if (!grille || !liste.length) return; // sinon, le message « Aucune œuvre » reste affiché
+
+                const vide = document.getElementById('vendre-vide');
+                if (vide) vide.remove();
+
+                liste.forEach(o => {
+                    if (!o || !o.img) return;
+                    const card = document.createElement('div');
+                    card.className = 'vendre-card';
+
+                    const img = document.createElement('img');
+                    img.className = 'vendre-card-img';
+                    img.src = o.img;
+                    img.alt = o.title || 'Œuvre à vendre';
+                    img.loading = 'lazy';
+                    // Cliquer la photo l'agrandit dans la visionneuse (lightbox)
+                    img.addEventListener('click', () => {
+                        const lb = document.getElementById('lightbox');
+                        const lbImg = document.getElementById('lightbox-img');
+                        if (lb && lbImg) { lbImg.src = o.img; lb.classList.add('active'); }
+                    });
+
+                    const body = document.createElement('div');
+                    body.className = 'vendre-card-body';
+
+                    const h4 = document.createElement('h4');
+                    h4.textContent = o.title || 'Œuvre';
+                    body.appendChild(h4);
+
+                    if (o.desc) {
+                        const desc = document.createElement('p');
+                        desc.className = 'vendre-desc';
+                        desc.textContent = o.desc;
+                        body.appendChild(desc);
+                    }
+
+                    const price = document.createElement('div');
+                    price.className = 'vendre-price';
+                    price.textContent = o.price ? o.price : 'Prix sur demande';
+                    body.appendChild(price);
+
+                    const btn = document.createElement('a');
+                    btn.className = 'vendre-btn';
+                    const sujet = encodeURIComponent('Intérêt pour : ' + (o.title || 'une œuvre à vendre'));
+                    btn.href = 'mailto:kreationkf@hotmail.com?subject=' + sujet;
+                    btn.textContent = 'Je suis intéressé(e)';
+                    body.appendChild(btn);
+
+                    card.appendChild(img);
+                    card.appendChild(body);
+                    grille.appendChild(card);
+                });
+            } catch (e) { /* la section « À vendre » reste vide */ }
+        }
+
         // Filtres + Lightbox : on les active APRÈS avoir inséré les œuvres de
         // Maman, pour qu'elles soient incluses dans le tri et l'agrandissement.
         function activerGalerie() {
@@ -1925,6 +2020,7 @@
         Promise.allSettled([chargerOeuvresMaman(), chargerVideosPortfolio()]).finally(activerGalerie);
         // Les vidéos « coulisses » sont indépendantes de la galerie.
         chargerCoulisses();
+        chargerAVendre();
     </script>
 </body>
 </html>
