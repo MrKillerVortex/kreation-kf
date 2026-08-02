@@ -21,6 +21,31 @@ backend:
 media_folder: "images"
 public_folder: "/images"
 
+# =============================================================
+#  Bibliothèques de médias
+# =============================================================
+#  • "default"   = le dépôt GitHub → parfait pour les PHOTOS.
+#  • "cloudinary" = hébergeur vidéo gratuit → pour les VIDÉOS.
+#
+#  Pourquoi ? Le téléversement vers GitHub passe par son API, qui
+#  bloque autour de ~20 Mo. Cloudinary accepte ~100 Mo par vidéo,
+#  et se charge en plus de la compresser pour un chargement rapide.
+#
+#  ⚠️ Shawn : remplace les deux valeurs ci-dessous par les tiennes
+#     AVANT de publier (voir admin/VIDEOS-CLOUDINARY.md).
+# =============================================================
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+  cloudinary:
+    config:
+      cloud_name: "REMPLACER_PAR_CLOUD_NAME"
+      api_key: "REMPLACER_PAR_API_KEY"
+    # false = l'adresse complète de la vidéo est enregistrée dans le
+    # site (indispensable : le fichier ne vit pas dans le dépôt).
+    output_filename_only: false
+
 # Langue de l'interface
 locale: fr
 
@@ -65,7 +90,8 @@ collections:
             widget: "list"
             summary: "{{fields.title}}"
             fields:
-              - { label: "Vidéo (fichier .mp4)", name: "video", widget: "file", media_folder: "/videos", public_folder: "/videos", hint: "Courte vidéo. ⚠️ Gardez-la légère (moins de ~20 Mo)." }
+              - { label: "Vidéo (fichier .mp4)", name: "video", widget: "file", required: false, media_folder: "/videos", public_folder: "/videos", hint: "Dans la fenêtre qui s'ouvre, choisissez l'onglet « Cloudinary » : il accepte les vidéos jusqu'à ~100 Mo." }
+              - { label: "… ou lien YouTube / Vimeo", name: "lien", widget: "string", required: false, hint: "Pour une vidéo trop longue : mettez-la sur YouTube (en « Non répertoriée ») ou Vimeo, puis collez le lien ici et laissez le champ « Vidéo » vide." }
               - { label: "Image de couverture (optionnel)", name: "poster", widget: "image", required: false, hint: "L'image affichée avant que la vidéo démarre." }
               - { label: "Titre", name: "title", widget: "string" }
               - { label: "Description", name: "desc", widget: "string", required: false }
@@ -95,7 +121,8 @@ collections:
             widget: "list"
             summary: "{{fields.title}}"
             fields:
-              - { label: "Vidéo (fichier .mp4)", name: "video", widget: "file", media_folder: "/videos", public_folder: "/videos", hint: "Courte vidéo. ⚠️ Gardez-la légère (moins de ~20 Mo)." }
+              - { label: "Vidéo (fichier .mp4)", name: "video", widget: "file", required: false, media_folder: "/videos", public_folder: "/videos", hint: "Dans la fenêtre qui s'ouvre, choisissez l'onglet « Cloudinary » : il accepte les vidéos jusqu'à ~100 Mo." }
+              - { label: "… ou lien YouTube / Vimeo", name: "lien", widget: "string", required: false, hint: "Pour une vidéo trop longue : mettez-la sur YouTube (en « Non répertoriée ») ou Vimeo, puis collez le lien ici et laissez le champ « Vidéo » vide." }
               - { label: "Image de couverture (optionnel)", name: "poster", widget: "image", required: false }
               - { label: "Titre", name: "title", widget: "string", required: false }
               - { label: "Description", name: "desc", widget: "string", required: false }

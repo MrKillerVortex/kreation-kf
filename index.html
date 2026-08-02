@@ -182,12 +182,17 @@
             width: 100%; max-width: 380px; border-radius: 15px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.45); background: #000; display: block;
         }
+        .video-wrapper iframe {
+            width: 100%; max-width: 380px; aspect-ratio: 16 / 9; border: 0; border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.45); background: #000; display: block;
+        }
         .video-figure figcaption { text-align: center; color: var(--silver-kf); margin-top: 14px; }
         .video-figure figcaption strong { display: block; font-size: 1.15rem; }
         .video-figure figcaption span { color: var(--cyan-kf); font-size: 0.85rem; letter-spacing: 1px; }
 
         /* --- VIDÉOS dans la galerie bento --- */
         .bento-item video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
+        .bento-item iframe { width: 100%; height: 100%; border: 0; display: block; background: #000; }
         .bento-item.video-item { cursor: default; }
         .bento-item.video-item .bento-overlay {
             pointer-events: none; opacity: 1;
@@ -1775,6 +1780,99 @@
             }
         }
 
+        // --- Vidéos hébergées sur Cloudinary ---
+        // Maman téléverse ses vidéos sur Cloudinary (GitHub bloque au-delà de
+        // ~20 Mo). On glisse deux réglages dans l'adresse du fichier :
+        //   f_auto,q_auto → Cloudinary choisit le format et la qualité selon
+        //                   l'appareil : la vidéo se charge beaucoup plus vite.
+        //   so_1 + .jpg   → une image de couverture prise à la 1re seconde,
+        //                   quand Maman n'en a pas fourni une.
+        const CLOUDINARY_VIDEO = '/video/upload/';
+
+        function sourceVideo(src) {
+            return src.includes(CLOUDINARY_VIDEO)
+                ? src.replace(CLOUDINARY_VIDEO, CLOUDINARY_VIDEO + 'f_auto,q_auto/')
+                : src;
+        }
+
+        function posterAuto(src) {
+            if (!src.includes(CLOUDINARY_VIDEO)) return '';
+            return src.replace(CLOUDINARY_VIDEO, CLOUDINARY_VIDEO + 'so_1,q_auto/')
+                      .replace(/\.[a-z0-9]+$/i, '.jpg');
+        }
+
+        // Applique la source, la couverture et les réglages de lecture communs.
+        function preparerVideo(video, v) {
+            video.src = sourceVideo(v.video);
+            const poster = v.poster || posterAuto(v.video);
+            if (poster) video.poster = poster;
+            video.controls = true;
+            video.playsInline = true;
+            video.preload = 'none';
+        }
+
+        // --- Vidéos hébergées sur YouTube / Vimeo ---
+        // Plutôt que de téléverser un fichier, Maman peut coller un lien : c'est
+        // la solution pour les vidéos trop longues, même pour Cloudinary. On
+        // reconnaît les formes habituelles (youtu.be, ?v=, /shorts/, vimeo.com…)
+        // et on en tire l'adresse du lecteur à intégrer.
+        function lienEmbarque(lien) {
+            let u;
+            try { u = new URL(String(lien).trim()); } catch (e) { return ''; }
+            if (u.protocol !== 'https:' && u.protocol !== 'http:') return '';
+            const hote = u.hostname.replace(/^www\./, '');
+            const segments = u.pathname.split('/').filter(Boolean);
+
+            // YouTube — youtu.be/ID, /watch?v=ID, /shorts/ID, /embed/ID, /live/ID
+            if (hote === 'youtu.be' || hote.endsWith('youtube.com') || hote.endsWith('youtube-nocookie.com')) {
+                const id = hote === 'youtu.be'
+                    ? segments[0]
+                    : (u.searchParams.get('v') ||
+                       (['shorts', 'embed', 'live', 'v'].includes(segments[0]) ? segments[1] : ''));
+                // youtube-nocookie : pas de cookie publicitaire tant que la
+                // vidéo n'est pas lancée. rel=0 : pas de suggestions d'autres
+                // chaînes à la fin.
+                return id ? 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?rel=0' : '';
+            }
+
+            // Vimeo — vimeo.com/ID, vimeo.com/ID/CODE (lien privé),
+            // player.vimeo.com/video/ID, vimeo.com/channels/xxx/ID
+            if (hote.endsWith('vimeo.com')) {
+                const i = segments.findIndex(s => /^\d+$/.test(s));
+                if (i === -1) return '';
+                const suivant = segments[i + 1];
+                // Le code des vidéos non répertoriées : soit ?h=…, soit collé
+                // derrière l'identifiant dans l'adresse.
+                const code = u.searchParams.get('h') ||
+                             (suivant && !/^\d+$/.test(suivant) ? suivant : '');
+                return 'https://player.vimeo.com/video/' + encodeURIComponent(segments[i]) +
+                       (code ? '?h=' + encodeURIComponent(code) : '');
+            }
+
+            return '';
+        }
+
+        // Construit le lecteur d'une entrée : le lien YouTube/Vimeo s'il y en a
+        // un, sinon le fichier vidéo téléversé. Renvoie null si l'entrée est
+        // vide ou si le lien collé n'est pas reconnu.
+        function creerLecteur(v) {
+            const embarque = v.lien ? lienEmbarque(v.lien) : '';
+            if (embarque) {
+                const cadre = document.createElement('iframe');
+                cadre.src = embarque;
+                cadre.title = v.title || 'Vidéo';
+                cadre.loading = 'lazy';
+                cadre.allow = 'accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                cadre.allowFullscreen = true;
+                cadre.referrerPolicy = 'strict-origin-when-cross-origin';
+                return cadre;
+            }
+            if (!v.video) return null;
+            const video = document.createElement('video');
+            preparerVideo(video, v);
+            return video;
+        }
+
         // --- Vidéos ajoutées par Maman dans la GALERIE (via /admin/) ---
         async function chargerVideosPortfolio() {
             try {
@@ -1786,17 +1884,13 @@
                 if (!grille || !liste.length) return;
 
                 liste.forEach(v => {
-                    if (!v || !v.video) return;
+                    if (!v) return;
+                    const lecteur = creerLecteur(v);
+                    if (!lecteur) return;
+
                     const item = document.createElement('div');
                     item.className = 'bento-item video-item item-tall';
                     item.setAttribute('data-category', v.category || 'mur');
-
-                    const video = document.createElement('video');
-                    video.src = v.video;
-                    if (v.poster) video.poster = v.poster;
-                    video.controls = true;
-                    video.playsInline = true;
-                    video.preload = 'none';
 
                     const overlay = document.createElement('div');
                     overlay.className = 'bento-overlay';
@@ -1807,7 +1901,7 @@
                     overlay.appendChild(h4);
                     overlay.appendChild(p);
 
-                    item.appendChild(video);
+                    item.appendChild(lecteur);
                     item.appendChild(overlay);
                     grille.prepend(item);
                 });
@@ -1825,17 +1919,13 @@
                 if (!conteneur || !liste.length) return;
 
                 liste.forEach(v => {
-                    if (!v || !v.video) return;
+                    if (!v) return;
+                    const lecteur = creerLecteur(v);
+                    if (!lecteur) return;
+
                     const figure = document.createElement('figure');
                     figure.className = 'video-figure';
-
-                    const video = document.createElement('video');
-                    video.src = v.video;
-                    if (v.poster) video.poster = v.poster;
-                    video.controls = true;
-                    video.playsInline = true;
-                    video.preload = 'none';
-                    figure.appendChild(video);
+                    figure.appendChild(lecteur);
 
                     if (v.title || v.desc) {
                         const cap = document.createElement('figcaption');

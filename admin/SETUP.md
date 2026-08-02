@@ -88,10 +88,15 @@ En plus des photos, Maman peut maintenant ajouter des **vidéos** à deux endroi
 Dans les deux cas : **Add Vidéos** → choisir le fichier `.mp4`, (option : une
 image de couverture), un titre, puis **Publish**.
 
-> ⚠️ **Important pour les vidéos** : gardez chaque fichier **léger (< ~20 Mo)**.
-> Le téléversement passe par GitHub, qui refuse les gros fichiers. Pour une
-> longue vidéo, demandez à Shawn de la compresser d'abord (ou utilisez un clip
-> court). Astuce : préférez des clips de 10-30 secondes.
+> ⚠️ **Important pour les vidéos** : au moment de choisir le fichier, prenez
+> l'onglet **Cloudinary** (jusqu'à ~100 Mo par vidéo). L'onglet du dépôt, lui,
+> bloque autour de 20 Mo. La configuration se fait **une seule fois** :
+> voir **`admin/VIDEOS-CLOUDINARY.md`**.
+>
+> Pour une vidéo **encore plus longue**, utilisez plutôt le champ
+> **« … ou lien YouTube / Vimeo »** : mettez la vidéo sur YouTube en
+> « Non répertoriée », copiez le lien, collez-le, et laissez le champ
+> « Vidéo » vide. Aucune limite de taille.
 
 > 💡 Astuce : pour qu'elle puisse publier, ajoute son compte GitHub comme
 > **collaborateur** du dépôt (GitHub → repo → Settings → Collaborators).
