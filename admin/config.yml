@@ -40,8 +40,8 @@ media_libraries:
       slugify_filename: true
   cloudinary:
     config:
-      cloud_name: "REMPLACER_PAR_CLOUD_NAME"
-      api_key: "REMPLACER_PAR_API_KEY"
+      cloud_name: "k3atfh5h"
+      api_key: "815392837234298"
     # false = l'adresse complète de la vidéo est enregistrée dans le
     # site (indispensable : le fichier ne vit pas dans le dépôt).
     output_filename_only: false
