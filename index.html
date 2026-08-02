@@ -14,7 +14,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Kréation-KF | Art Époxy par Karine Fortin">
     <meta property="og:description" content="Des textures organiques, des cristaux étincelants et une profondeur fascinante. L'élégance moderne signée Karine Fortin.">
-    <meta property="og:image" content="https://kreation-kf.vercel.app/images/19.jpg">
+    <meta property="og:image" content="https://kreation-kf.vercel.app/images/maman-013.jpeg">
     <meta property="og:url" content="https://kreation-kf.vercel.app/">
     <meta property="og:locale" content="fr_CA">
 
@@ -22,7 +22,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Kréation-KF | Art Époxy par Karine Fortin">
     <meta name="twitter:description" content="Des textures organiques, des cristaux étincelants et une profondeur fascinante. L'élégance moderne signée Karine Fortin.">
-    <meta name="twitter:image" content="https://kreation-kf.vercel.app/images/19.jpg">
+    <meta name="twitter:image" content="https://kreation-kf.vercel.app/images/maman-013.jpeg">
 
     <!-- Favicon (lettres KF en cyan, dessiné en SVG, aucun fichier requis) -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23141417'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' font-weight='bold' fill='%2300bfff' text-anchor='middle'%3EKF%3C/text%3E%3C/svg%3E">
@@ -203,6 +203,21 @@
         .bento-item.video-item .bento-overlay p { transform: translateY(0); }
         .bento-item.video-item:hover img { transform: none; }
 
+        /* --- À VENDRE --- */
+        .vendre-intro { text-align: center; max-width: 720px; margin: -30px auto 50px; color: #aaa; line-height: 1.6; }
+        .vendre-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .vendre-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.4s ease, border-color 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .vendre-card:hover { transform: translateY(-8px); border-color: var(--cyan-kf); }
+        .vendre-card-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; background: #000; display: block; cursor: pointer; transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1); }
+        .vendre-card:hover .vendre-card-img { transform: scale(1.05); }
+        .vendre-card-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+        .vendre-card-body h4 { font-size: 1.2rem; color: var(--silver-kf); margin-bottom: 8px; }
+        .vendre-desc { color: #999; font-size: 0.9rem; line-height: 1.5; margin-bottom: 18px; flex: 1; }
+        .vendre-price { font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--cyan-kf); margin-bottom: 18px; }
+        .vendre-btn { display: inline-block; text-align: center; padding: 12px 20px; border-radius: 999px; border: 1px solid var(--cyan-kf); color: var(--cyan-kf); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 2px; transition: background 0.3s, color 0.3s; }
+        .vendre-btn:hover { background: var(--cyan-kf); color: #000; box-shadow: 0 0 20px rgba(0, 191, 255, 0.35); }
+        .vendre-vide { grid-column: 1 / -1; text-align: center; color: #777; padding: 50px 0; }
+
         /* --- LIGHTBOX --- */
         #lightbox {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000;
@@ -313,6 +328,7 @@
             <li><a href="#services">Catégories</a></li>
             <li><a href="#about">L'Artiste</a></li>
             <li><a href="#portfolio">Œuvres</a></li>
+            <li><a href="#a-vendre">À vendre</a></li>
         </ul>
     </nav>
 
@@ -396,7 +412,7 @@
             <div class="bento-grid reveal">
                 
                 <div class="bento-item item-large" data-category="mur">
-                    <img src="images/19.jpg" alt="Grande toile époxy bleue">
+                    <img src="images/maman-013.jpeg" alt="Rivière de Cristaux — grande toile géode turquoise">
                     <div class="bento-overlay">
                         <span class="zoom-icon">🔍</span>
                         <h4>Rivière de Cristaux</h4>
@@ -503,14 +519,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/27.jpg" alt="Toile géode crème et or avec Karine" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">🔍</span>
-                        <h4>Douceur Minérale</h4>
-                        <p>Toile géode crème et or</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-007.jpeg" alt="Brume Côtière" loading="lazy">
@@ -548,14 +556,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="deco">
-                    <img src="images/maman-011.jpeg" alt="Trésor Minéral" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Trésor Minéral</h4>
-                        <p>Plateau géode et cristaux</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-012.jpeg" alt="Vagues d'Agate" loading="lazy">
@@ -563,15 +563,6 @@
                         <span class="zoom-icon">&#128269;</span>
                         <h4>Vagues d'Agate</h4>
                         <p>Toile agate turquoise</p>
-                    </div>
-                </div>
-
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-013.jpeg" alt="Source Cristalline" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Source Cristalline</h4>
-                        <p>Toile géode beige et turquoise</p>
                     </div>
                 </div>
 
@@ -584,14 +575,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-015.jpeg" alt="Soleil Couchant" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Soleil Couchant</h4>
-                        <p>Toile ronde géode rouge</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="deco">
                     <img src="images/maman-016.jpeg" alt="Éclat des Fêtes" loading="lazy">
@@ -728,14 +711,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-034.jpeg" alt="Colonne de Cristal" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Colonne de Cristal</h4>
-                        <p>Grande toile géode bleue et or</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-035.jpeg" alt="Ressac" loading="lazy">
@@ -746,14 +721,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-036.jpeg" alt="Songe Pastel" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Songe Pastel</h4>
-                        <p>Toile ronde rose et or</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-037.jpeg" alt="Rose de Quartz" loading="lazy">
@@ -800,14 +767,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-042.jpeg" alt="Coucher Ambré" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Coucher Ambré</h4>
-                        <p>Toile ronde géode orange et or</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-043.jpeg" alt="Pétales de Quartz" loading="lazy">
@@ -944,23 +903,7 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-066.jpeg" alt="Nuit Étoilée" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Nuit Étoilée</h4>
-                        <p>Toile ronde géode bleue et or</p>
-                    </div>
-                </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-068.jpeg" alt="Dune Dorée" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Dune Dorée</h4>
-                        <p>Toile ronde géode sable et or</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-069.jpeg" alt="Aube Rosée" loading="lazy">
@@ -971,23 +914,7 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-070.jpeg" alt="Flamme Douce" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Flamme Douce</h4>
-                        <p>Toile ronde géode orange et crème</p>
-                    </div>
-                </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-071.jpeg" alt="Émeraude" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Émeraude</h4>
-                        <p>Toile ronde géode verte</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-072.jpeg" alt="Lagune" loading="lazy">
@@ -998,14 +925,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-073.jpeg" alt="Bassin de Jade" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Bassin de Jade</h4>
-                        <p>Toiles rondes géode turquoise</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-074.jpeg" alt="Lave et Or" loading="lazy">
@@ -1025,41 +944,9 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-077.jpeg" alt="Rêve de Rose" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Rêve de Rose</h4>
-                        <p>Toile ronde rose et or</p>
-                    </div>
-                </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-078.jpeg" alt="Écume Marine" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Écume Marine</h4>
-                        <p>Toile océane avec coquillage</p>
-                    </div>
-                </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-079.jpeg" alt="Reflets de Sable" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Reflets de Sable</h4>
-                        <p>Toile géode bleue et or</p>
-                    </div>
-                </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-080.jpeg" alt="Source d'Azur" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Source d'Azur</h4>
-                        <p>Toile géode bleue et or</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-081.jpeg" alt="Grand Large" loading="lazy">
@@ -1079,32 +966,8 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-084.jpeg" alt="Balade Côtière" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Balade Côtière</h4>
-                        <p>Toile paysage de plage</p>
-                    </div>
-                </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-086.jpeg" alt="Jardin d'Ombres" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Jardin d'Ombres</h4>
-                        <p>Toile aux empreintes botaniques</p>
-                    </div>
-                </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-088.jpeg" alt="Marbre de Jade" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Marbre de Jade</h4>
-                        <p>Toile ronde marbrée verte</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-089.jpeg" alt="Givre Précieux" loading="lazy">
@@ -1115,14 +978,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-090.jpeg" alt="Faille Dorée" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Faille Dorée</h4>
-                        <p>Grande toile géode bleue et or</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-091.jpeg" alt="Conte Pastel" loading="lazy">
@@ -1241,23 +1096,7 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="bain">
-                    <img src="images/maman-109.jpeg" alt="Cercle Doré" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Cercle Doré</h4>
-                        <p>Sous-verres bois et résine</p>
-                    </div>
-                </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-110.jpeg" alt="Miroir Minéral" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Miroir Minéral</h4>
-                        <p>Miroir géode sur mesure</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-111.jpeg" alt="Reflet de Géode" loading="lazy">
@@ -1277,14 +1116,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-113.jpeg" alt="Brume d'Azur" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Brume d'Azur</h4>
-                        <p>Toile géode bleue et grise</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-114.jpeg" alt="Argent et Or" loading="lazy">
@@ -1304,32 +1135,8 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="bain">
-                    <img src="images/maman-116.jpeg" alt="Vague à Boire" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Vague à Boire</h4>
-                        <p>Verre à vin résine turquoise</p>
-                    </div>
-                </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-117.jpeg" alt="Caresse Dorée" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Caresse Dorée</h4>
-                        <p>Toile géode crème et or</p>
-                    </div>
-                </div>
 
-                <div class="bento-item" data-category="bain">
-                    <img src="images/maman-118.jpeg" alt="Marée en Duo" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Marée en Duo</h4>
-                        <p>Verres à vin résine océane</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="bain">
                     <img src="images/maman-120.jpeg" alt="Brume Rosée" loading="lazy">
@@ -1340,14 +1147,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-121.jpeg" alt="Forêt Cristalline" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Forêt Cristalline</h4>
-                        <p>Toile géode turquoise et argent</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="deco">
                     <img src="images/maman-122.jpeg" alt="Étincelle Cuivrée" loading="lazy">
@@ -1367,14 +1166,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="deco">
-                    <img src="images/maman-125.jpeg" alt="Bulle Dorée" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Bulle Dorée</h4>
-                        <p>Ornement géode or</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="deco">
                     <img src="images/maman-126.jpeg" alt="Joyau du Sapin" loading="lazy">
@@ -1448,14 +1239,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-134.jpeg" alt="Cascade de Jade" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Cascade de Jade</h4>
-                        <p>Toile agate turquoise et or</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-135.jpeg" alt="Brasier" loading="lazy">
@@ -1484,14 +1267,6 @@
                     </div>
                 </div>
 
-                <div class="bento-item" data-category="mur">
-                    <img src="images/maman-138.jpeg" alt="Or Noir" loading="lazy">
-                    <div class="bento-overlay">
-                        <span class="zoom-icon">&#128269;</span>
-                        <h4>Or Noir</h4>
-                        <p>Toile ronde géode noire, or et cristaux</p>
-                    </div>
-                </div>
 
                 <div class="bento-item" data-category="mur">
                     <img src="images/maman-141.jpeg" alt="Échappée" loading="lazy">
@@ -1672,6 +1447,20 @@
                         <p>Découpe à la scie à onglet</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- À VENDRE -->
+    <section id="a-vendre" class="bg-alt">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <p>Disponibles</p>
+                <h2>Œuvres à vendre</h2>
+            </div>
+            <p class="vendre-intro reveal">Ces créations sont disponibles à l'achat. Chaque pièce est unique &mdash; contactez Karine pour en faire l'acquisition.</p>
+            <div class="vendre-grid reveal" id="vendre-grid">
+                <p class="vendre-vide" id="vendre-vide">Aucune œuvre à vendre pour le moment. Revenez bientôt&nbsp;!</p>
             </div>
         </div>
     </section>
@@ -1938,6 +1727,71 @@
             } catch (e) { /* la vidéo d'origine reste affichée normalement */ }
         }
 
+        // --- Œuvres À VENDRE ajoutées par Maman (via /admin/) ---
+        // On lit data/a-vendre.json et on affiche chaque œuvre disponible
+        // avec son prix et un bouton « Je suis intéressé(e) » (email).
+        async function chargerAVendre() {
+            try {
+                const res = await fetch('data/a-vendre.json', { cache: 'no-store' });
+                if (!res.ok) return;
+                const data = await res.json();
+                const liste = (data && Array.isArray(data.oeuvres)) ? data.oeuvres : [];
+                const grille = document.getElementById('vendre-grid');
+                if (!grille || !liste.length) return; // sinon, le message « Aucune œuvre » reste affiché
+
+                const vide = document.getElementById('vendre-vide');
+                if (vide) vide.remove();
+
+                liste.forEach(o => {
+                    if (!o || !o.img) return;
+                    const card = document.createElement('div');
+                    card.className = 'vendre-card';
+
+                    const img = document.createElement('img');
+                    img.className = 'vendre-card-img';
+                    img.src = o.img;
+                    img.alt = o.title || 'Œuvre à vendre';
+                    img.loading = 'lazy';
+                    // Cliquer la photo l'agrandit dans la visionneuse (lightbox)
+                    img.addEventListener('click', () => {
+                        const lb = document.getElementById('lightbox');
+                        const lbImg = document.getElementById('lightbox-img');
+                        if (lb && lbImg) { lbImg.src = o.img; lb.classList.add('active'); }
+                    });
+
+                    const body = document.createElement('div');
+                    body.className = 'vendre-card-body';
+
+                    const h4 = document.createElement('h4');
+                    h4.textContent = o.title || 'Œuvre';
+                    body.appendChild(h4);
+
+                    if (o.desc) {
+                        const desc = document.createElement('p');
+                        desc.className = 'vendre-desc';
+                        desc.textContent = o.desc;
+                        body.appendChild(desc);
+                    }
+
+                    const price = document.createElement('div');
+                    price.className = 'vendre-price';
+                    price.textContent = o.price ? o.price : 'Prix sur demande';
+                    body.appendChild(price);
+
+                    const btn = document.createElement('a');
+                    btn.className = 'vendre-btn';
+                    const sujet = encodeURIComponent('Intérêt pour : ' + (o.title || 'une œuvre à vendre'));
+                    btn.href = 'mailto:kreationkf@hotmail.com?subject=' + sujet;
+                    btn.textContent = 'Je suis intéressé(e)';
+                    body.appendChild(btn);
+
+                    card.appendChild(img);
+                    card.appendChild(body);
+                    grille.appendChild(card);
+                });
+            } catch (e) { /* la section « À vendre » reste vide */ }
+        }
+
         // Filtres + Lightbox : on les active APRÈS avoir inséré les œuvres de
         // Maman, pour qu'elles soient incluses dans le tri et l'agrandissement.
         function activerGalerie() {
@@ -2015,6 +1869,7 @@
         Promise.allSettled([chargerOeuvresMaman(), chargerVideosPortfolio()]).finally(activerGalerie);
         // Les vidéos « coulisses » sont indépendantes de la galerie.
         chargerCoulisses();
+        chargerAVendre();
     </script>
 </body>
 </html>
