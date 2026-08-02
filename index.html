@@ -382,15 +382,8 @@
                 <p>En coulisses</p>
                 <h2>Au cœur de l'atelier</h2>
             </div>
-            <div class="video-wrapper reveal" id="coulisses-videos">
-                <figure class="video-figure">
-                    <video controls playsinline preload="none"
-                           poster="videos/mom-video-poster.jpg">
-                        <source src="videos/mom-video.mp4" type="video/mp4">
-                        Votre navigateur ne supporte pas la lecture vidéo.
-                    </video>
-                </figure>
-            </div>
+            <!-- Les vidéos sont ajoutées par Maman via /admin/ (data/coulisses.json) -->
+            <div class="video-wrapper reveal" id="coulisses-videos"></div>
         </div>
     </section>
 
@@ -1699,13 +1692,13 @@
 
         // --- Vidéos ajoutées par Maman dans les COULISSES (via /admin/) ---
         async function chargerCoulisses() {
+            const conteneur = document.getElementById('coulisses-videos');
             try {
                 const res = await fetch('data/coulisses.json', { cache: 'no-store' });
-                if (!res.ok) return;
+                if (!res.ok) throw new Error(res.status);
                 const data = await res.json();
                 const liste = (data && Array.isArray(data.videos)) ? data.videos : [];
-                const conteneur = document.getElementById('coulisses-videos');
-                if (!conteneur || !liste.length) return;
+                if (!conteneur) return;
 
                 liste.forEach(v => {
                     if (!v) return;
@@ -1724,7 +1717,12 @@
                     }
                     conteneur.appendChild(figure);
                 });
-            } catch (e) { /* la vidéo d'origine reste affichée normalement */ }
+            } catch (e) { /* aucune vidéo à afficher : la section est masquée ci-dessous */ }
+
+            // Aucune vidéo (liste vide, fichier illisible, liens invalides) :
+            // on masque toute la section plutôt que d'afficher un titre seul.
+            const section = document.getElementById('atelier-video');
+            if (section && (!conteneur || !conteneur.children.length)) section.style.display = 'none';
         }
 
         // --- Œuvres À VENDRE ajoutées par Maman (via /admin/) ---
